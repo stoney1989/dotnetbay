@@ -3,6 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <!-- DataGrid style -->
+        <Style x:Key="DataGridMarginStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="Margin" Value="10,10,10,10"></Setter>
+        </Style>
+
+        <!-- DataGrid style -->
+        <Style x:Key="ItemMarginStyle" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="10,10,10,10"></Setter>
+        </Style>
+        
     </Application.Resources>
 </Application>

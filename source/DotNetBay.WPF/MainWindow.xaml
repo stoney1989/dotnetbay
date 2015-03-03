@@ -1,33 +1,36 @@
 ﻿<Window x:Class="DotNetBay.WPF.MainWindow"
-xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-xmlns:local="clr-namespace:DotNetBay.WPF"
-d:DataContext="{d:DesignInstance Type=local:MainWindow}"
-mc:Ignorable="d"
-Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <StackPanel VerticalAlignment="Stretch">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:DotNetBay.WPF"
+        Title="MainWindow" Height="350" Width="525" SizeToContent="WidthAndHeight">
 
-            <Button HorizontalAlignment="Left" Width="100">New Auction</Button>
+    <Window.Resources>
+        <my:BooleanToStatusTextConverter x:Key="BooleanToStatusTextConverter" />
+        <BooleanToVisibilityConverter x:Key="VisibilityOfBool" />
+    </Window.Resources>
 
-            <DataGrid AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Auctions}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Auction" Binding="{Binding Path=Title}" />
-                    <DataGridTextColumn Header="Starts" Binding="{Binding Path=StartDateTimeUtc}" />
-                    <DataGridTextColumn Header="Ends" Binding="{Binding Path=EndDateTimeUtc}" />
-                    <DataGridTextColumn Header="Start Price" Binding="{Binding Path=StartPrice}" />
-                    <DataGridTextColumn Header="Start Price" Binding="{Binding Path=Seller}" />
-                    <DataGridTemplateColumn Header="Place Bid">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Click="BuyAction" Background="DarkGreen" Height="50" Width="50">Buy</Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
-    </Grid>
+    <StackPanel VerticalAlignment="Stretch">
+
+        <Button HorizontalAlignment="Left" Width="100" Click="AddNewAuction" Style="{StaticResource ItemMarginStyle}">New Auction</Button>
+
+        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=Auctions}" Style="{StaticResource DataGridMarginStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Auction" Binding="{Binding Path=Title}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Path=IsRunning, Converter={StaticResource BooleanToStatusTextConverter}}"/>
+                <DataGridTextColumn Header="Starts" Binding="{Binding Path=StartDateTimeUtc}" />
+                <DataGridTextColumn Header="Ends" Binding="{Binding Path=EndDateTimeUtc}" />
+                <DataGridTextColumn Header="Start Price" Binding="{Binding Path=StartPrice}" />
+                <DataGridTextColumn Header="Start Price" Binding="{Binding Path=Seller}" />
+                <DataGridTemplateColumn Header="Place Bid">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button   Click="BuyAction" Background="DarkGreen" Height="50" Width="50" Visibility="{Binding Path=IsRunning, Converter={StaticResource VisibilityOfBool}}">Buy</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+
+
 </Window>

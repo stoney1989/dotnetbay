@@ -19,12 +19,13 @@ namespace DotNetBay.WPF
     public partial class App : Application
     {
         private readonly IMainRepository mainRepository;
-        private readonly AuctionRunner auctionRunner;
 
         public IMainRepository MainRepository
         {
             get { return this.mainRepository; }
         }
+
+        private readonly AuctionRunner auctionRunner;
 
         public IAuctionRunner AuctionRunner
         {
@@ -33,48 +34,67 @@ namespace DotNetBay.WPF
 
         public App()
         {
-            this.mainRepository = new FileSystemMainRepository("Main Repository");
+
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            var result = new string(
+                Enumerable.Repeat(chars, 8)
+                          .Select(s => s[random.Next(s.Length)])
+                          .ToArray());
+
+            this.mainRepository = new FileSystemMainRepository(result);
+            this.InitDemoData();  
             this.auctionRunner = new AuctionRunner(this.mainRepository);
             this.auctionRunner.Start();
-            this.InitDemoData();
+       
         }
 
         private void InitDemoData()
         {
             var memberService = new SimpleMemberService(this.mainRepository);
             var service = new AuctionService(this.mainRepository, memberService);
+            
             if (!service.GetAll().Any())
             {
-
+             
                 var me = memberService.GetCurrentMember();
                 service.Save(new Auction
                 {
                     Title = "My First Auction",
                     StartDateTimeUtc = DateTime.UtcNow.AddSeconds(10),
                     EndDateTimeUtc = DateTime.UtcNow.AddDays(14),
-                    StartPrice = 72,
-                    Seller = me
+                    StartPrice = 800,
+                    Seller = me,
+                    IsRunning = true,
+                    IsClosed = false
                 });
+
+                var p = new Member();
 
                 service.Save(new Auction
                 {
                     Title = "My Second Auction",
                     StartDateTimeUtc = DateTime.UtcNow.AddSeconds(10),
                     EndDateTimeUtc = DateTime.UtcNow.AddDays(14),
-                    StartPrice = 72,
-                    Seller = me
+                    StartPrice = 234,
+                    Seller = me ,
+                    IsRunning = true,
+                    IsClosed = false
                 });
+
+                var p2 = new Member();
 
                 service.Save(new Auction
                 {
                     Title = "My Third Auction",
                     StartDateTimeUtc = DateTime.UtcNow.AddSeconds(10),
                     EndDateTimeUtc = DateTime.UtcNow.AddDays(14),
-                    StartPrice = 72,
-                    Seller = me
+                    StartPrice = 3453,
+                    Seller = me,
+                    IsRunning = false,
+                    IsClosed = true
                 });
             }
         }
-
     }
 }

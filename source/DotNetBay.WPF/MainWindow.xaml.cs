@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,36 +24,53 @@ namespace DotNetBay.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        private ObservableCollection<Auction> auctions;
+        private readonly ObservableCollection<Auction> auctions;
 
         public ObservableCollection<Auction> Auctions
         {
             get { return this.auctions; }
         }
 
-        private String test = "TestString";
-
-        public String Test
-        {
-            get { return this.test; }
-        }
-
         public MainWindow()
         {
-            InitializeComponent();
-            var mainRepository = ((App)Application.Current).MainRepository;
+            this.InitializeComponent();
+
+            var mainRepository = ((App) Application.Current).MainRepository;
 
             var memberService = new SimpleMemberService(mainRepository);
             var service = new AuctionService(mainRepository, memberService);
 
+            var queryable = service.GetAll();
+
             this.auctions = new ObservableCollection<Auction>(service.GetAll());
+
             this.DataContext = this;
+            
         }
 
         private void BuyAction(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var sellView = new SellView();
+            sellView.ShowDialog(); // Blocking
+        }
+
+        private void AddNewAuction(object sender, RoutedEventArgs e)
+        {
+            var sellView = new SellView();
+            sellView.ShowDialog(); // Blocking
+        }
+    }
+
+    public class BooleanToStatusTextConverter: IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ((bool) value) ? "Offen" : "Abgeschlossen";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ((string) value).Equals("Offen") ? true : false;
         }
     }
 }
