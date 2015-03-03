@@ -64,6 +64,7 @@ namespace DotNetBay.WPF
                     StartDateTimeUtc = DateTime.UtcNow.AddSeconds(10),
                     EndDateTimeUtc = DateTime.UtcNow.AddDays(14),
                     StartPrice = 800,
+                    Description = "My First Description",
                     Seller = me,
                     IsRunning = true,
                     IsClosed = false
@@ -77,6 +78,7 @@ namespace DotNetBay.WPF
                     StartDateTimeUtc = DateTime.UtcNow.AddSeconds(10),
                     EndDateTimeUtc = DateTime.UtcNow.AddDays(14),
                     StartPrice = 234,
+                    Description = "My Second Description",
                     Seller = me ,
                     IsRunning = true,
                     IsClosed = false
@@ -90,6 +92,7 @@ namespace DotNetBay.WPF
                     StartDateTimeUtc = DateTime.UtcNow.AddSeconds(10),
                     EndDateTimeUtc = DateTime.UtcNow.AddDays(14),
                     StartPrice = 3453,
+                    Description = "My Third Description",
                     Seller = me,
                     IsRunning = false,
                     IsClosed = true

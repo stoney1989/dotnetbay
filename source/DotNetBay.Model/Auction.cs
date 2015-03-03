@@ -8,6 +8,7 @@ namespace DotNetBay.Model
         public Auction()
         {
             this.Bids = new List<Bid>();
+            
         }
 
 
@@ -67,7 +68,7 @@ namespace DotNetBay.Model
             set
             {
                 this.description = value; 
-                if (value.Length <30 || value.Length >240)
+                if (value.Length <3 || value.Length >240)
                 {
                     throw new ApplicationException("Length of description must be between 30 and 240 characters!");
                 }

@@ -13,14 +13,17 @@
 
         <Button HorizontalAlignment="Left" Width="100" Click="AddNewAuction" Style="{StaticResource ItemMarginStyle}">New Auction</Button>
 
-        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=Auctions}" Style="{StaticResource DataGridMarginStyle}">
+        <DataGrid Name="AuctionDataGrid" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=Auctions}" Style="{StaticResource DataGridMarginStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Auction" Binding="{Binding Path=Title}" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Path=IsRunning, Converter={StaticResource BooleanToStatusTextConverter}}"/>
                 <DataGridTextColumn Header="Starts" Binding="{Binding Path=StartDateTimeUtc}" />
                 <DataGridTextColumn Header="Ends" Binding="{Binding Path=EndDateTimeUtc}" />
                 <DataGridTextColumn Header="Start Price" Binding="{Binding Path=StartPrice}" />
-                <DataGridTextColumn Header="Start Price" Binding="{Binding Path=Seller}" />
+                <DataGridTextColumn Header="Current Price" Binding="{Binding Path=CurrentPrice}" />
+                <DataGridTextColumn Header="Bids" Binding="{Binding Path=Bids.Count}" />
+                <DataGridTextColumn Header="Seller" Binding="{Binding Path=Seller.DisplayName}" />
+                <DataGridTextColumn Header="Current Winner" Binding="{Binding Path=Winner.DisplayName}" />
                 <DataGridTemplateColumn Header="Place Bid">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DotNetBay.Core;
+using DotNetBay.Core.Execution;
 using DotNetBay.Model;
 
 namespace DotNetBay.WPF
@@ -44,14 +45,21 @@ namespace DotNetBay.WPF
 
             this.auctions = new ObservableCollection<Auction>(service.GetAll());
 
+
+            ((App) Application.Current).AuctionRunner.Auctioneer.BidAccepted +=
+                delegate(object sender, ProcessedBidEventArgs args)
+                {
+                    
+                };
+
             this.DataContext = this;
             
         }
 
         private void BuyAction(object sender, RoutedEventArgs e)
         {
-            var sellView = new SellView();
-            sellView.ShowDialog(); // Blocking
+            var bidView = new BidView((Auction) this.AuctionDataGrid.SelectedItem);
+            bidView.ShowDialog(); // Blocking
         }
 
         private void AddNewAuction(object sender, RoutedEventArgs e)
