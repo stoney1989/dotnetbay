@@ -42,6 +42,7 @@ namespace DotNetBay.WPF
                           .Select(s => s[random.Next(s.Length)])
                           .ToArray());
 
+            var name = "repo234";
             this.mainRepository = new FileSystemMainRepository(result);
             this.InitDemoData();  
             this.auctionRunner = new AuctionRunner(this.mainRepository);
@@ -61,7 +62,7 @@ namespace DotNetBay.WPF
                 service.Save(new Auction
                 {
                     Title = "My First Auction",
-                    StartDateTimeUtc = DateTime.UtcNow.AddSeconds(10),
+                    StartDateTimeUtc = DateTime.UtcNow,
                     EndDateTimeUtc = DateTime.UtcNow.AddDays(14),
                     StartPrice = 800,
                     Description = "My First Description",
@@ -69,6 +70,7 @@ namespace DotNetBay.WPF
                     IsRunning = true,
                     IsClosed = false
                 });
+               
 
                 var p = new Member();
 

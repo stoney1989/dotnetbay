@@ -1,0 +1,50 @@
+﻿<Window x:Class="DotNetBay.WPF.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:DotNetBay.WPF"
+        xmlns:view="clr-namespace:DotNetBay.WPF.View"
+        xmlns:converter="clr-namespace:DotNetBay.WPF.Converter"
+        Title="MainWindow" Height="350" Width="525" SizeToContent="WidthAndHeight">
+
+    <Window.Resources>
+        <converter:BooleanToStatusTextConverter x:Key="BooleanToStatusTextConverter" />
+        <BooleanToVisibilityConverter x:Key="VisibilityOfBool" />
+    </Window.Resources>
+
+    <StackPanel VerticalAlignment="Stretch">
+
+        <Button HorizontalAlignment="Left" Width="100" Style="{StaticResource ItemMarginStyle}"
+                Command="{Binding OpenSellViewCommand}">
+            New Auction
+        </Button>
+
+        <DataGrid Name="AuctionDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                  ItemsSource="{Binding Path=Auctions}" Style="{StaticResource DataGridMarginStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Auction" Binding="{Binding Path=Title}" />
+                <DataGridTextColumn Header="Status"
+                                    Binding="{Binding Path=Status, Converter={StaticResource BooleanToStatusTextConverter}}" />
+                <DataGridTextColumn Header="Starts" Binding="{Binding Path=Start}" />
+                <DataGridTextColumn Header="Ends" Binding="{Binding Path=End}" />
+                <DataGridTextColumn Header="Start Price" Binding="{Binding Path=StartPrice}" />
+                <DataGridTextColumn Header="Current Price" Binding="{Binding Path=CurrentPrice}" />
+                <DataGridTextColumn Header="Bids" Binding="{Binding Path=Bids}" />
+                <DataGridTextColumn Header="Seller" Binding="{Binding Path=Seller}" />
+                <DataGridTextColumn Header="Current Winner" Binding="{Binding Path=CurrentWinner}" />
+                <DataGridTemplateColumn Header="Place Bid">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Background="DarkGreen" Height="50" Width="50"
+                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path= DataContext.OpenBidViewCommand}" CommandParameter="{Binding  Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                    Visibility="{Binding Path=Status, Converter={StaticResource VisibilityOfBool}}">
+                                Buy
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+
+
+</Window>

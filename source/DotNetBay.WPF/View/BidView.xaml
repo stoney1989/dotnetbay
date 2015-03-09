@@ -1,7 +1,7 @@
-﻿<Window x:Class="DotNetBay.WPF.BidView"
+﻿<Window x:Class="DotNetBay.WPF.View.BidView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="BidView" Height="270" Width="600">
+        Title="BidView" Name="BidVieWindow" Height="270" Width="600">
 
     <StackPanel Margin="10 0 10 0">
 
@@ -20,28 +20,28 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0"  Grid.Column="0">Title</Label>
-            <Label Grid.Row="0" Grid.Column="1" Content="{Binding Path=Title}"/>
+            <Label Grid.Row="0" Grid.Column="0">Title</Label>
+            <Label Grid.Row="0" Grid.Column="1" Content="{Binding Path=Auction.Title}" />
 
             <Label Grid.Row="1" Grid.Column="0">Description</Label>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Description}" TextWrapping="Wrap" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Auction.Description}" TextWrapping="Wrap" />
 
             <Label Grid.Row="2" Grid.Column="0">Start Price</Label>
-            <Label Name="StartPriceBox"  Grid.Row="2" Grid.Column="1" Content="{Binding Path=StartPrice}"></Label>
+            <Label Grid.Row="2" Grid.Column="1" Content="{Binding Path=Auction.StartPrice}" />
 
             <Label Grid.Row="3" Grid.Column="0">Current Price</Label>
-            <Label Name="CurrentPriceBox"  Grid.Row="3" Grid.Column="1" Content="{Binding Path=CurrentPrice}"></Label>
-            
-            <Label Grid.Row="4" Grid.Column="0">Your Bid</Label>
-            <TextBox Name="YourBidBox" Grid.Row="4" Grid.Column="1"></TextBox>
+            <Label Grid.Row="3" Grid.Column="1" Content="{Binding Path=Auction.CurrentPrice}" />
 
-           
+            <Label Grid.Row="4" Grid.Column="0">Your Bid</Label>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=YourBid,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+
         </Grid>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 20 0 0">
 
-            <Button Margin="0 0 5 0" Click="BtnPlaceBid">Add Auction</Button>
-            <Button Click="BtnCancel">Cancel</Button>
+            <Button Margin="0 0 5 0" Command="{Binding PlaceBidCommand}">Place Bid</Button>
+            <Button Command="{Binding CancelPlaceBidCommand}" CommandParameter="{Binding ElementName=BidVieWindow}">Cancel</Button>
 
         </StackPanel>
     </StackPanel>
